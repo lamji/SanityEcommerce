@@ -2,13 +2,14 @@ import React from 'react'
 import Link from "next/link"
 
 import {urlFor} from "../lib/client"
+import {useStateContext} from "../context/stateContext"
 
 function Product({product: {image, name, slug, price}}) {
-  console.log(image)
+  const { setqty} = useStateContext();
   return (
     <div>
-      <Link href={`/product/${slug?.current}`}>
-        <div className='product-card'>
+      <Link href={`/product/${slug?.current}`} >
+        <div className='product-card' onClick={() => setqty(1)}>
           <img 
             src={urlFor(image && image[0])} 
             alt={slug?.current} 
@@ -20,7 +21,7 @@ function Product({product: {image, name, slug, price}}) {
             {name}
           </p>
           <p className='product-price'>
-          ₱ {price}.00
+            ₱ {price.toFixed(2)}
           </p>
         </div>
       </Link>

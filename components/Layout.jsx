@@ -1,26 +1,30 @@
-import React from 'react';
-import Head from 'next/head';
+import React from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const Layout = ({ children }) => {
+  const router = useRouter();
+  const showFooter = router.pathname === "/admin/xyz" ? false : true
+  const showHeader =
+    router.pathname === "/admin/login" || router.pathname === "/admin/xyz"
+      ? false
+      : true;
   return (
     <div className="layout">
       <Head>
         <title>JS Mastery Store</title>
       </Head>
-      <header>
-        <Navbar />
-      </header>
-      <main className="main-container">
-        {children}
-      </main>
+      <header>{showHeader && <Navbar />}</header>
+      <main className="main-container">{children}</main>
       <footer>
-        <Footer />
+        {showFooter && <Footer />}
+        
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

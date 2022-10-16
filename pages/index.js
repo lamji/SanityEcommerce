@@ -1,8 +1,14 @@
 import React from 'react'
 import {product, FooterBanner, HeroBanner, Product} from "../components"
 import {client} from "../lib/client"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useStateContext } from '../context/stateContext';
 
 function index({products, bannerData}) {
+  const {qty,setqty} = useStateContext()
+  React.useEffect(() => {
+    setqty(1)
+  })
   return (
     <div>
       <HeroBanner heroBanner={bannerData.length && bannerData[0]}/>

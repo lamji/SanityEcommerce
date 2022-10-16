@@ -11,6 +11,7 @@ yarn
 
 2. 
 ```bash
+sanity login
 sanity start
 sanity manage
 ```
@@ -27,5 +28,11 @@ NEXT_PUBLIC_SANITY_TOKEN = sanity id
 npm run dev
 # or
 yarn dev
+
+P@$$w0rdDemo&*@!LM_
+jicklampago9233@gmail.com
+
+admin cred
+admin@demo.com
 ```
 

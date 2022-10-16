@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router'
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { client, urlFor } from '../../lib/client';
 import { Product } from '../../components';
-// import { useStateContext } from '../../context/StateContext';
+import { useStateContext } from "../../context/stateContext";
+
 
 const ProductDetails = ({ product, products }) => {
+  const router = useRouter()
   const { image, name, details, price } = product;
   const [index, setIndex] = useState(0);
-  // const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+  const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
 
-  // const handleBuyNow = () => {
-  //   onAdd(product, qty);
+  const pushNav = () => {
+    router.push("/")
+  }
+  const handleBuyNow = () => {
+    onAdd(product, qty);
 
-  //   setShowCart(true);
-  // }
+    setShowCart(true);
+  }
 
   return (
     <div>
@@ -37,32 +44,33 @@ const ProductDetails = ({ product, products }) => {
 
         <div className="product-detail-desc">
           <h1>{name}</h1>
-          <div className="reviews">
-            <div>
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiOutlineStar />
-            </div>
-            <p>
-              (20)
-            </p>
-          </div>
           <h4>Details: </h4>
           <p>{details}</p>
-          <p className="price">${price}</p>
+          <p className="price">₱ {price.toFixed(2)}</p>
           <div className="quantity">
             <h3>Quantity:</h3>
             <p className="quantity-desc">
-              <span className="minus" ><AiOutlineMinus /></span>
-              <span className="num">0</span>
-              <span className="plus" ><AiOutlinePlus /></span>
+              <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
+              <span className="num">{qty}</span>
+              <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
             </p>
           </div>
+          <div>
+          <Row className="p-0 align-items-center">
+            <Col xs lg="2" className="border-end f12 border-red ">
+              44 Stocks
+            </Col>
+            <Col xs lg={3} className="f12">
+              59 Sold
+            </Col>
+          </Row>
+          </div>
           <div className="buttons">
-            <button type="button" className="add-to-cart" onClick="">Add to Cart</button>
-            <button type="button" className="buy-now" onClick="">Buy Now</button>
+            <button type="button" className="add-to-cart" onClick={() => {
+              onAdd(product, qty)
+             
+            }} >Add to Cart</button>
+            <button type="button" className="buy-now" onClick={() => handleBuyNow()} >Buy Now</button>
           </div>
         </div>
       </div>
