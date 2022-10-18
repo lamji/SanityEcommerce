@@ -24,7 +24,6 @@ const Index = () => {
   const [show, setShow] = React.useState(false);
 
   React.useEffect(() => {
-    console.log(token)
     token != null ? router.replace("/admin/xyz") : null;
   });
 
@@ -43,6 +42,7 @@ const Index = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          console.log(user)
           handleLogin("token",user?.accessToken)
           setTrigger(true)
           router.push("/admin/xyz")
@@ -108,7 +108,6 @@ const Index = () => {
                   className="border"
                   onClick={() => {
                     setShow(false);
-                    console.log("hhh")
                   }}
                 >
                   <BiShow />

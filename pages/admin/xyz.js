@@ -1,7 +1,10 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { useStateContext } from "../../context/stateContext";
-import Admin from "../../components/Admin";
+import ProductAdmin from "../../components/ProductAdmin";
+import OrdersAdmiin from "../../components/OrdersAdmiin";
+import SettingAdmin from "../../components/SettingAdmin";
+import SalesAdmin from "../../components/SalesAdmin";
 import { Button } from "react-bootstrap";
 
 function xyz() {
@@ -77,7 +80,6 @@ function xyz() {
     handleActive(active);
   }, [active]);
 
-  console.log(sideBarBtn);
   return (
     <div className="flexBs">
       <div className="sideBar">
@@ -117,7 +119,12 @@ function xyz() {
           </Button>
         </div>
       </div>
-      <div className="admin-content">Content</div>
+      <div className="admin-content">
+        {active === "products" ? <ProductAdmin /> : <></>}
+        {active === "orders" ? <OrdersAdmiin /> : <></>}
+        {active === "sales" ? <SalesAdmin />: <></>} 
+        {active === "setting" ? <SettingAdmin />:<></>}
+      </div>
     </div>
   );
 }

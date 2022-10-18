@@ -18,16 +18,34 @@ body,
   height: 20px;
   width: 20px;
 }
+.addProduct{
+  width: 200px;
+  background-color: #f02d34;
+  border: none;
+}
+.addProduct:hover{
+  background-color: #f02d34;
+}
 .icon-sidebarActive {
   width: 20px;
   height: 20px;
   margin: 0 6px;
   filter: invert(100%) sepia(0%) saturate(7464%) hue-rotate(339deg) brightness(102%) contrast(104%);
 }
+.product-list-flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .icon-sidebar {
   width: 20px;
   height: 20px;
   margin: 0 6px;
+}
+.product-details-image{
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
 }
 .sideBarActive {
   background-color: #324d67 !important;
@@ -40,13 +58,15 @@ body,
   text-align: left;
 }
 .sideBar {
-  width: 250px;
+  width: 20%;
   height: 100vh;
   background-color: #ededed;
   padding: 70px 20px;
 }
+
 .admin-content{
   padding: 70px 20px;
+  width: 80%;
 }
 .errorLogin{
   font-size: 12px;
@@ -84,7 +104,7 @@ body::-webkit-scrollbar-thumb {
   padding-left: 1.5em;
   margin-bottom: 0.125rem;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
 }
 .col-billing{
   padding: 10px 60px;
@@ -92,6 +112,9 @@ body::-webkit-scrollbar-thumb {
 .preview-items {
   max-height: 250px;
   overflow-y: scroll;
+}
+.border-100{
+  width: 100%;
 }
 label {
   font-size: 12px;

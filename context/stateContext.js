@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import moment from "moment"
 
 import { toast } from "react-hot-toast";
@@ -6,6 +7,7 @@ import { toast } from "react-hot-toast";
 const Context = createContext();
 
 export const StateContext = ({ children }) => {
+  const router = useRouter()
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, settotalPrice] = useState(0);
@@ -28,6 +30,7 @@ export const StateContext = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.clear()
+    router.push("/admin/login")
   }
   const handleLocalStorage = () => {
     if (typeof window !== 'undefined') {
