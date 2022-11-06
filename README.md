@@ -9,18 +9,19 @@ npm install
 yarn 
 ```
 
-2. 
+## Statrting Sanity
 ```bash
-sanity login
-sanity start
-sanity manage
+1. npm install -g @sanity/cli
+2. sanity login
+3. sanity start
+4. sanity manage
 ```
 
-3. 
+## Configure Sanity
 ```bash
-open sanity in local host and get the id
-create .env file
-NEXT_PUBLIC_SANITY_TOKEN = sanity id
+1. open sanity in local host and get the id
+2. create .env file
+3. NEXT_PUBLIC_SANITY_TOKEN = sanity id
 ```
 
 4. 

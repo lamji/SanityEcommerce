@@ -81,51 +81,59 @@ function xyz() {
   }, [active]);
 
   return (
-    <div className="flexBs">
-      <div className="sideBar">
-        <h5 className="color-primary">Admin Panel</h5>
-        <div className="border-bottom my-4"></div>
-        {sideBarChecks.map((item) => (
-          <div className="flexBs mt-1 align-items-center" key={item?.name}>
-            <Button
-              className={`color-primary-button ${
-                item?.style ? "sideBarActive" : ""
-              }`}
-              variant="contain"
-              onClick={() => setActive(item?.name.toLowerCase())}
-            >
-              <img
-                src={item?.icon || ""}
-                className={`${
-                  item?.style ? "icon-sidebarActive" : "icon-sidebar"
-                }`}
-              />
-              {item?.name}
-            </Button>
-          </div>
-        ))}
-        <div className="mt-5">
-          <Button
-            className={`color-primary-button `}
-            variant="contain"
-            onClick={() => {
-                handleLogout()
-                setTrigger(true)
-                router.reload(window.location.pathname)
-            }}
-          >
-            <img src="/logout.png" className="icon-sidebar" />
-            Logout
-          </Button>
+    <React.Fragment>
+      {token === null ? (
+        <div className="loading-wrapper">
+          <div className="spinner-grow" role="status"></div>
         </div>
-      </div>
-      <div className="admin-content">
-        {active === "products" ? <ProductAdmin /> : <></>}
-        {active === "orders" ? <OrdersAdmiin /> : <></>}
-        {active === "sales" ? <SalesAdmin />: <></>} 
-        {active === "setting" ? <SettingAdmin />:<></>}
-      </div>
-    </div>
+      ) : (
+        <div className="flexBs">
+          <div className="sideBar">
+            <h5 className="color-primary">Admin Panel</h5>
+            <div className="border-bottom my-4"></div>
+            {sideBarChecks.map((item) => (
+              <div className="flexBs mt-1 align-items-center" key={item?.name}>
+                <Button
+                  className={`color-primary-button ${
+                    item?.style ? "sideBarActive" : ""
+                  }`}
+                  variant="contain"
+                  onClick={() => setActive(item?.name.toLowerCase())}
+                >
+                  <img
+                    src={item?.icon || ""}
+                    className={`${
+                      item?.style ? "icon-sidebarActive" : "icon-sidebar"
+                    }`}
+                  />
+                  {item?.name}
+                </Button>
+              </div>
+            ))}
+            <div className="mt-5">
+              <Button
+                className={`color-primary-button `}
+                variant="contain"
+                onClick={() => {
+                  handleLogout();
+                  setTrigger(true);
+                  router.reload(window.location.pathname);
+                }}
+              >
+                <img src="/logout.png" className="icon-sidebar" />
+                Logout
+              </Button>
+            </div>
+          </div>
+          <div className="admin-content">
+            {active === "products" ? <ProductAdmin /> : <></>}
+            {active === "orders" ? <OrdersAdmiin /> : <></>}
+            {active === "sales" ? <SalesAdmin /> : <></>}
+            {active === "setting" ? <SettingAdmin /> : <></>}
+          </div>
+        </div>
+      )}
+    </React.Fragment>
   );
 }
 
