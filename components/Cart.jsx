@@ -1,30 +1,18 @@
-import React, { useRef } from "react";
-import { useRouter } from 'next/router'
+import React, { useRef } from 'react';
+import { useRouter } from 'next/router';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Link from "next/link";
-import {
-  AiOutlineMinus,
-  AiOutlinePlus,
-  AiOutlineLeft,
-  AiOutlineShopping,
-} from "react-icons/ai";
-import { TiDeleteOutline } from "react-icons/ti";
-import { useStateContext } from "../context/stateContext";
-import { urlFor } from "../lib/client";
+import Link from 'next/link';
+import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
+import { TiDeleteOutline } from 'react-icons/ti';
+import { useStateContext } from '../context/stateContext';
+import { urlFor } from '../lib/client';
 
 const Cart = () => {
-  const router = useRouter()
+  const router = useRouter();
   const cartRef = useRef();
-  const {
-    totalPrice,
-    totalQuantities,
-    cartItems,
-    setShowCart,
-    toggleCartItemQuanitity,
-    onRemove
-  } = useStateContext();
-
+  const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity, onRemove } =
+    useStateContext();
 
   cartItems.sort(function (a, b) {
     return new Date(a.added).getTime() - new Date(b.added).getTime();
@@ -33,11 +21,7 @@ const Cart = () => {
   return (
     <div className="cart-wrapper" ref={cartRef}>
       <div className="cart-container">
-        <button
-          type="button"
-          className="cart-heading"
-          onClick={() => setShowCart(false)}
-        >
+        <button type="button" className="cart-heading" onClick={() => setShowCart(false)}>
           <AiOutlineLeft />
           <span className="heading">Your Cart</span>
           <span className="cart-num-items">({totalQuantities} items)</span>
@@ -47,11 +31,7 @@ const Cart = () => {
             <AiOutlineShopping size={150} />
             <h3>Your shopping bag is empty</h3>
             <Link href="/">
-              <button
-                type="button"
-                onClick={() => setShowCart(false)}
-                className="btnPay"
-              >
+              <button type="button" onClick={() => setShowCart(false)} className="btnPay">
                 Continue Shopping
               </button>
             </Link>
@@ -61,18 +41,13 @@ const Cart = () => {
           {cartItems.length >= 1 &&
             cartItems.map((item, index) => (
               <div className="product" key={item._id}>
-                <img
-                  src={urlFor(item?.image?.[0])}
-                  className="cart-product-image"
-                />
+                <img src={urlFor(item?.image?.[0])} className="cart-product-image" />
                 <div className="item-desc">
-
                   <div className="flex top">
                     <h5>{item?.name}</h5>
                     <h4>₱{item?.price.toFixed(2)}</h4>
                   </div>
                   <div className=" color-primary container">
-                    
                     <Row className="p-0 align-items-center">
                       <Col xs lg="4" className="border-end f12 border-red ">
                         44 Stocks
@@ -97,29 +72,24 @@ const Cart = () => {
                         Shipping Fee
                       </Col>
                       <Col md="auto" className="f12">
-                       ₱{item?.shippingFee.toFixed(2)}
+                        ₱{item?.shippingFee.toFixed(2)}
                       </Col>
                     </Row>
                   </div>
-      
 
                   <div className="flex bottom">
                     <div>
                       <p className="quantity-desc">
                         <span
                           className="minus"
-                          onClick={() =>
-                            toggleCartItemQuanitity(item._id, "desc")
-                          }
+                          onClick={() => toggleCartItemQuanitity(item._id, 'desc')}
                         >
                           <AiOutlineMinus />
                         </span>
                         <span className="num">{item.quantity}</span>
                         <span
                           className="plus"
-                          onClick={() =>
-                            toggleCartItemQuanitity(item._id, "inc")
-                          }
+                          onClick={() => toggleCartItemQuanitity(item._id, 'inc')}
                         >
                           <AiOutlinePlus />
                         </span>
@@ -134,12 +104,16 @@ const Cart = () => {
             ))}
         </div>
         {cartItems.length >= 1 && (
-          <div className="cart-bottom">     
+          <div className="cart-bottom">
             <div className="btn-container">
-              <button type="button" className="btnPay" onClick={() => {
+              <button
+                type="button"
+                className="btnPay"
+                onClick={() => {
                   setShowCart(false);
-                  router.push("/billing")
-              }}>
+                  router.push('/billing');
+                }}
+              >
                 Check Out
               </button>
             </div>

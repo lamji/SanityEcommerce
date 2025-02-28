@@ -1,0 +1,373 @@
+{
+  "data": "test",
+  "bannerData": [
+    {
+      "buttonText": "Shop Now",
+      "discount": "20% Off",
+      "desc": "Best headphones in the market",
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-a64b345016e96adfb8849af5521c8e0ecfe8f027-555x555-webp",
+          "_type": "reference"
+        }
+      },
+      "_type": "banner",
+      "smallText": "Beats Solo Air",
+      "largeText2": "SMILE",
+      "saleTime": "15 November to December 30",
+      "largeText1": "FINE",
+      "product": "headphones",
+      "midText": "Summer Sale",
+      "_id": "91728984-d381-4ed2-917e-e79dbd197ca5",
+      "_updatedAt": "2022-10-08T14:09:27Z",
+      "_rev": "xqW7B4rRSB42TaT0Ka5LL8",
+      "_createdAt": "2022-10-07T16:37:43Z"
+    }
+  ],
+  "products": [
+    {
+      "_type": "product",
+      "_updatedAt": "2022-10-15T15:27:47Z",
+      "shippingFee": 100,
+      "price": 768,
+      "_createdAt": "2022-10-08T13:31:27Z",
+      "_rev": "C268jUKrgvHQuGweF8SsdC",
+      "name": "Smart Watch ",
+      "details": "matalinong relo Sports Fitness Watch for woman Na Relo sa android and ios",
+      "_id": "08e1b809-aeb9-49c1-92e1-3c1d13d12b59",
+      "slug": {
+        "current": "smart-watch",
+        "_type": "slug"
+      },
+      "image": [
+        {
+          "_type": "image",
+          "_key": "fc43387715d7",
+          "asset": {
+            "_ref": "image-5e577feda12dac0688658c0129498d058121e0f9-800x800-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "011c38775610",
+          "asset": {
+            "_ref": "image-f4a469d5d0964a219d851f10cf5a58d95533a0f0-600x600-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "85204af92986",
+          "asset": {
+            "_ref": "image-432153409f86ef269df797d0ef3091c99f447490-2000x2331-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "bee19944d362",
+          "asset": {
+            "_ref": "image-8aa3c4242c30718c8add3cd373c2945908356f4a-600x600-webp",
+            "_type": "reference"
+          }
+        }
+      ]
+    },
+    {
+      "shippingFee": 20,
+      "_createdAt": "2022-10-07T15:35:46Z",
+      "name": "Headphones",
+      "_id": "390a8e36-4fc8-45c7-b74b-80d4a28144e7",
+      "slug": {
+        "current": "headphones",
+        "_type": "slug"
+      },
+      "image": [
+        {
+          "_type": "image",
+          "_key": "363e9bc506d8",
+          "asset": {
+            "_ref": "image-f024f1fb4c4048936932a8a391d7d6adc415b288-600x600-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "03aa608816a6",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-a205aaa5ac2c75342801e683c3b78ea2fff8913b-600x600-webp"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "98cda2d1b169",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-82ad0a754a506295f243c53e205a5a47bfd81355-800x800-webp"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "5e346534d7fc",
+          "asset": {
+            "_ref": "image-0ef032c9302fa60035ca21b3763b907c45b64c73-800x800-webp",
+            "_type": "reference"
+          }
+        }
+      ],
+      "price": 120,
+      "_rev": "C268jUKrgvHQuGweF8T3IZ",
+      "_type": "product",
+      "details": "Great looking and sounding headphones",
+      "_updatedAt": "2022-10-15T15:28:29Z"
+    },
+    {
+      "image": [
+        {
+          "_type": "image",
+          "_key": "8f9e1d88666f",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-07fd4b12012f56f93ee9c5090a09754b4d8ee9dd-600x600-webp"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "8b75967e53f9",
+          "asset": {
+            "_ref": "image-18cffd876ecb5abec2d26637bea5dd549928029c-800x800-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "b1a48a6bfb42",
+          "asset": {
+            "_ref": "image-e080e19ff807ee022d04d04db072d9376d94da36-600x600-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "6a8fa3114b13",
+          "asset": {
+            "_ref": "image-2dcd6804ac04c28574e5bf088348e9459121166e-800x800-webp",
+            "_type": "reference"
+          }
+        }
+      ],
+      "shippingFee": 100,
+      "price": 89,
+      "_createdAt": "2022-10-08T13:24:30Z",
+      "name": "QKZ AK6 headphone",
+      "_id": "4a0038c9-c064-4ab3-b7bd-1d2343acc0f9",
+      "_rev": "OtipGe7Y86t6Xtn6qc82Gg",
+      "_type": "product",
+      "details": "QKZ AK6 Sports Earphones Dynamic Earbuds with Microphone Headset Subwoofer Bass AK6X upgrade version",
+      "_updatedAt": "2022-10-15T15:28:44Z",
+      "slug": {
+        "current": "qkz-ak6-headphone",
+        "_type": "slug"
+      }
+    },
+    {
+      "_type": "product",
+      "name": "POWERSINGLE PRO",
+      "_updatedAt": "2022-10-15T15:28:00Z",
+      "slug": {
+        "current": "powersingle-pro",
+        "_type": "slug"
+      },
+      "shippingFee": 50,
+      "price": 444,
+      "_rev": "OtipGe7Y86t6Xtn6qc7zCU",
+      "details": "POWERSINGLE PRO Noise Cancelling Bluetooth Headphones Ultra-Long Life In-Ear Sports Headphones",
+      "_id": "79d286ca-990d-417b-b249-597fc72f629c",
+      "image": [
+        {
+          "_type": "image",
+          "_key": "0f71e96ed5a3",
+          "asset": {
+            "_ref": "image-058225fc820fe15a1c63697367a905959a5f32a6-555x555-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "asset": {
+            "_ref": "image-a099db30fab841ce69c573f7409251824748e490-600x600-webp",
+            "_type": "reference"
+          },
+          "_type": "image",
+          "_key": "b79eb5ec85c4"
+        },
+        {
+          "_type": "image",
+          "_key": "c6e9d9f8a2fa",
+          "asset": {
+            "_ref": "image-04f8a489a3f3b726d8cf0709fbe561ff0ed82fad-900x900-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "1b6d4b71226c",
+          "asset": {
+            "_ref": "image-797f8df56017feb72288e218fd6957ef068d7b44-700x700-webp",
+            "_type": "reference"
+          },
+          "_type": "image"
+        }
+      ],
+      "_createdAt": "2022-10-08T13:29:46Z"
+    },
+    {
+      "shippingFee": 100,
+      "details": "Best portable speaker ",
+      "_id": "8687ad62-fc9f-4c64-930e-b7f9690b3e67",
+      "image": [
+        {
+          "_key": "b15387e6d719",
+          "asset": {
+            "_ref": "image-9fbb62343426e1f157144f26d9b59be1629ef7c1-600x600-webp",
+            "_type": "reference"
+          },
+          "_type": "image"
+        },
+        {
+          "_type": "image",
+          "_key": "ce229ec7fc1b",
+          "asset": {
+            "_ref": "image-7d8e11aa468c951095577c0ecada75ad7d66313e-800x800-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "525f8cada753",
+          "asset": {
+            "_ref": "image-157be1e12db1dab55141ee5935f7fe8b8887ced3-800x800-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "8a5c7d58b5a6",
+          "asset": {
+            "_ref": "image-9c6162564225f2fd12c9abd439ce80e5df0986d4-800x800-webp",
+            "_type": "reference"
+          }
+        }
+      ],
+      "price": 300,
+      "_createdAt": "2022-10-08T13:19:28Z",
+      "_rev": "C268jUKrgvHQuGweF8TCQm",
+      "_type": "product",
+      "name": "Speaker",
+      "_updatedAt": "2022-10-15T15:29:09Z",
+      "slug": {
+        "current": "speaker",
+        "_type": "slug"
+      }
+    },
+    {
+      "_rev": "OtipGe7Y86t6Xtn6qc80lk",
+      "_updatedAt": "2022-10-15T15:28:14Z",
+      "shippingFee": 0,
+      "price": 200,
+      "_type": "product",
+      "name": "J2L Headphones E55BTS",
+      "details": "J2L Headphones E55BTS Wireless Gaming Headset Ear Headphones Sports Bluetooth 5.0 with Mic",
+      "_id": "8f3d4756-872c-40a4-8bd4-cb9765d4c442",
+      "slug": {
+        "current": "j2l-headphones-e55bts",
+        "_type": "slug"
+      },
+      "image": [
+        {
+          "_type": "image",
+          "_key": "b9b02b46c77b",
+          "asset": {
+            "_ref": "image-7779cbf27cbc8125c28234fde710cb4b2bf34ec0-600x600-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "d39d8e20239a",
+          "asset": {
+            "_ref": "image-47b31e41aa6cd8bdbf2c0f3a6f03ac90c81d5746-900x900-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "f246ca0751cf",
+          "asset": {
+            "_ref": "image-a526b96131f4da2799071600492f8afbe4de62a3-900x900-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_type": "image",
+          "_key": "37d4f0bee836",
+          "asset": {
+            "_ref": "image-c6f278aa0550e1c5617d26e67944086f8a21a4c8-800x800-webp",
+            "_type": "reference"
+          }
+        }
+      ],
+      "_createdAt": "2022-10-08T13:27:05Z"
+    },
+    {
+      "details": "U19 Inpods Macaron 3.5mm Earphone Gaming Earbuds Sport Bass Headset With Mic for ios Android good",
+      "_id": "d5d53d59-2a2f-4b8c-b220-2d34ee0401c8",
+      "_updatedAt": "2022-10-15T15:28:57Z",
+      "slug": {
+        "current": "earphones",
+        "_type": "slug"
+      },
+      "image": [
+        {
+          "_type": "image",
+          "_key": "a20e56cf2153",
+          "asset": {
+            "_ref": "image-802165b134fd5c2751b3bf69fa83c67e0b262944-600x600-webp",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "70b6c47671ea",
+          "asset": {
+            "_ref": "image-17dc1e78143cf6430140d63b3e2544c1b639577a-800x800-webp",
+            "_type": "reference"
+          },
+          "_type": "image"
+        },
+        {
+          "asset": {
+            "_ref": "image-9ca9ca6bec7ad7d470791fc847f283baf0cd3530-800x800-webp",
+            "_type": "reference"
+          },
+          "_type": "image",
+          "_key": "bee73a1f8a0d"
+        },
+        {
+          "_type": "image",
+          "_key": "2679c84e10ae",
+          "asset": {
+            "_type": "reference",
+            "_ref": "image-0e4c9a275895c4035e56555ccd0652208fb2cda8-800x800-webp"
+          }
+        }
+      ],
+      "_rev": "C268jUKrgvHQuGweF8T9p0",
+      "_type": "product",
+      "name": "Earphones",
+      "shippingFee": 60,
+      "price": 100,
+      "_createdAt": "2022-10-08T13:22:40Z"
+    }
+  ]
+}

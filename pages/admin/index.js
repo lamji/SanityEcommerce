@@ -1,9 +1,8 @@
-import React from 'react'
+import React from 'react';
+import Dashboard from '../../components/dashboard';
+import Login from '../../components/login';
 
-function index() {
-  return (
-    <div>index</div>
-  )
+export default function index() {
+  const token = true;
+  return <div>{token ? <Dashboard /> : <Login />}</div>;
 }
-
-export default index
