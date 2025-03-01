@@ -1,146 +1,43 @@
-import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Pagination } from 'react-bootstrap';
+/* eslint-disable @next/next/no-img-element */
+import React, { useEffect, useState } from 'react';
+import { Table, Button, Modal, Form, Pagination, Spinner } from 'react-bootstrap';
+import TodoList from '../toDo';
+import useViewModel from './useViewModel';
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState({
-    name: '',
-    regularPrice: '',
-    interest: '',
-    discount: '',
-    isDiscounted: false,
-    description: '',
-    images: [],
-    stock: '',
-    featuredImageIndex: null,
-    priceWithInterest: '',
-  });
-  const [editIndex, setEditIndex] = useState(null);
-  const [validation, setValidation] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const {
+    products,
+    isLoading,
+    error,
+    currentItems,
+    currentPage,
+    totalPages,
+    showModal,
+    editIndex,
+    validation,
+    handleChange,
+    currentProduct,
+    loading,
+    handleShowModal,
+    formatPrice,
+    handlePageChange,
+    handleConfirmDelete,
+    handleShowDeleteModal,
+    showDeleteModal,
+    calculatePriceWithInterest,
+    handleCloseModal,
+    handleSave,
+    setShowDeleteModal,
+    handleRemoveImage,
+  } = useViewModel();
 
-  const handleShowModal = (index = null) => {
-    setEditIndex(index);
-    if (index !== null) {
-      setCurrentProduct(products[index]);
-    } else {
-      setCurrentProduct({
-        name: '',
-        regularPrice: '',
-        interest: '',
-        discount: '',
-        isDiscounted: false,
-        description: '',
-        images: [],
-        stock: '',
-        featuredImageIndex: null,
-        priceWithInterest: '',
-      });
-    }
-    setValidation({});
-    setShowModal(true);
-  };
+  if (isLoading) {
+    return <Spinner animation="border" />;
+  }
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setEditIndex(null);
-  };
-
-  const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
-
-    console.log('currentProduct', name, value);
-    if (type === 'file') {
-      setCurrentProduct((prevState) => ({
-        ...prevState,
-        [name]: [...prevState[name], ...Array.from(files)].slice(0, 4),
-      }));
-    } else if (type === 'checkbox' && name === 'featuredImageIndex') {
-      setCurrentProduct((prevState) => ({
-        ...prevState,
-        [name]: checked ? parseInt(value) : null,
-      }));
-    } else {
-      setCurrentProduct((prevState) => ({
-        ...prevState,
-        [name]: type === 'checkbox' ? checked : value,
-      }));
-    }
-  };
-
-  const handleSave = () => {
-    currentProduct.priceWithInterest = calculatePriceWithInterest(
-      currentProduct.regularPrice,
-      currentProduct.interest
-    );
-    currentProduct.discountedPrice = calculateDiscountedPrice(
-      currentProduct.priceWithInterest,
-      currentProduct.discount
-    );
-    const { name, regularPrice, interest, discount, images, stock } = currentProduct;
-    const newValidation = {
-      name: !name,
-      regularPrice: !regularPrice,
-      interest: !interest,
-      discount: !discount,
-      images: images.length === 0,
-      stock: !stock,
-    };
-    setValidation(newValidation);
-
-    if (Object.values(newValidation).some((isInvalid) => isInvalid)) {
-      return;
-    }
-
-    if (editIndex !== null) {
-      const updatedProducts = [...products];
-      updatedProducts[editIndex] = currentProduct;
-      setProducts(updatedProducts);
-    } else {
-      setProducts([...products, currentProduct]);
-    }
-    handleCloseModal();
-  };
-
-  const handleDelete = (index) => {
-    setProducts(products.filter((_, i) => i !== index));
-  };
-
-  const handleRemoveImage = (index) => {
-    setCurrentProduct((prevState) => ({
-      ...prevState,
-      images: prevState.images.filter((_, i) => i !== index),
-      featuredImageIndex:
-        prevState.featuredImageIndex === index ? null : prevState.featuredImageIndex,
-    }));
-  };
-
-  const calculateDiscountedPrice = (price, discount) => {
-    return price - (price * discount) / 100;
-  };
-
-  const calculatePriceWithInterest = (price, interest) => {
-    const interestDecimal = interest / 100; // Convert percentage to decimal
-    return Number(price) + Number(price) * interestDecimal;
-  };
-
-  const formatPrice = (price) => {
-    const numericPrice = parseFloat(price);
-    return `₱${
-      !isNaN(numericPrice) ? numericPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '0.00'
-    }`;
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className=" mt-4">
@@ -178,8 +75,9 @@ const Products = () => {
               <td>{product.stock}</td>
               <td>
                 {product.images.length > 0 && (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={URL.createObjectURL(product.images[product.featuredImageIndex || 0])}
+                    src={product.images[product.featuredImageIndex || 0]}
                     alt={product.name}
                     width="50"
                     height="50"
@@ -187,14 +85,14 @@ const Products = () => {
                 )}
               </td>
               <td>
-                <Button variant="warning" size="sm" onClick={() => handleShowModal(index)}>
+                <Button variant="warning" size="sm" onClick={() => handleShowModal(index, product)}>
                   Edit
                 </Button>
                 <Button
                   variant="danger"
                   size="sm"
                   className="ms-2"
-                  onClick={() => handleDelete(index)}
+                  onClick={() => handleShowDeleteModal(product._id)}
                 >
                   Delete
                 </Button>
@@ -204,17 +102,27 @@ const Products = () => {
         </tbody>
       </Table>
 
-      <Pagination>
-        {[...Array(totalPages)].map((_, index) => (
-          <Pagination.Item
-            key={index + 1}
-            active={index + 1 === currentPage}
-            onClick={() => handlePageChange(index + 1)}
-          >
-            {index + 1}
-          </Pagination.Item>
-        ))}
-      </Pagination>
+      <div className="d-flex justify-content-center">
+        <Pagination>
+          <Pagination.Prev
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+          {[...Array(totalPages)].map((_, index) => (
+            <Pagination.Item
+              key={index + 1}
+              active={index + 1 === currentPage}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          />
+        </Pagination>
+      </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -382,11 +290,32 @@ const Products = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleSave}>
-            {editIndex !== null ? 'Update' : 'Save'}
+          <Button variant="primary" onClick={handleSave} disabled={loading}>
+            {loading ? (
+              <Spinner animation="border" size="sm" />
+            ) : editIndex !== null ? (
+              'Update'
+            ) : (
+              'Save'
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this product?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* <TodoList /> */}
     </div>
   );
 };

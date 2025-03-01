@@ -12,8 +12,15 @@ import Link from 'next/link';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { useStateContext } from '../../context/stateContext';
 import Spinner from '../Spinner';
+import secureLocalStorage from 'react-secure-storage';
+import useStyles from './useStyles';
 
 const Index = () => {
+  //   {
+  //   "username": "jickTestUser2",
+  //   "password": "1234567890"
+  // }
+  const classes = useStyles();
   const router = useRouter();
   const { loading, setLoading, handleLogin, setTrigger, Token } = useStateContext();
   const [validated, setValidated] = useState(false);
@@ -27,7 +34,7 @@ const Index = () => {
       const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: 'jickTestUser2', password: '1234567890' }),
         credentials: 'include',
       });
 
@@ -41,10 +48,12 @@ const Index = () => {
     onSuccess: (data) => {
       console.log(data);
       secureLocalStorage.setItem('token', data.token);
-      router.push('/');
+      setLoading(false);
+      router.push('/admin');
     },
     onError: (err) => {
       console.log(err);
+      setLoading(false);
       setErr(err.message || 'Login failed');
     },
   });
@@ -59,13 +68,13 @@ const Index = () => {
     } else {
       event.preventDefault();
       event.stopPropagation();
-      console.log({ email, password });
+      loginMutation.mutate({ username: email, password });
     }
     setValidated(true);
   };
 
   return (
-    <div className="container-login-wrapper">
+    <div className="container-login-wrapper" style={classes.root}>
       <div className="login-container">
         <Link href="/">
           <h6 className="color-primary linkNext">
@@ -83,6 +92,7 @@ const Index = () => {
                 required
                 type="text"
                 placeholder="john@gmail.com"
+                value="jickTestUser2"
                 onChange={(e) => {
                   setEmail(e.target.value);
                   setLoading(false);
@@ -95,6 +105,7 @@ const Index = () => {
             <InputGroup>
               <Form.Control
                 required
+                value="1234567890"
                 type={show ? 'text' : 'password'}
                 placeholder="password"
                 onChange={(e) => {

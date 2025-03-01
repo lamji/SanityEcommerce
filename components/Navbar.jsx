@@ -28,13 +28,13 @@ const Navbar = () => {
             </span>
           </div>
         </div>
-        <p className="p-0 mx-3 border-end px-2">
+        <p className="p-0 mx-3 border-end px-2 c-number">
           <span className="span">
             <BsFillTelephoneOutboundFill />
           </span>
           09206502183
         </p>
-        <p className="p-0 mx-3 border-end px-2">
+        <p className="p-0 mx-3 border-end px-2 c-email">
           <span className="span mx-1">
             <AiOutlineMail />
           </span>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { BsBagCheckFill } from 'react-icons/bs';
 
@@ -7,13 +7,14 @@ import { runFireworks } from '../../lib/utils';
 
 const Success = () => {
   const { setCartItems, settotalPrice, settotalQuantities } = useStateContext();
-  
+
   useEffect(() => {
     localStorage.clear();
     setCartItems([]);
     settotalPrice(0);
     settotalQuantities(0);
     runFireworks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -24,13 +25,11 @@ const Success = () => {
         </p>
         <h2>Thank you for your order!</h2>
         <p>Our Agent will call to the number you provided for order status</p>
-    
+
         <p className="description">
           If you have any questions, please email
-          <span className='email span'>lampagojick5@gmail.com</span>
-          <a className="email" href="mailto:order@example.com">
-           
-          </a>
+          <span className="email span">lampagojick5@gmail.com</span>
+          <a className="email" href="mailto:order@example.com"></a>
         </p>
         <Link href="/">
           <button type="button" width="300px" className="btn">
@@ -39,7 +38,7 @@ const Success = () => {
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Success
+export default Success;

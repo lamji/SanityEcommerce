@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
 import Row from 'react-bootstrap/Row';
@@ -41,7 +42,7 @@ const Cart = () => {
           {cartItems.length >= 1 &&
             cartItems.map((item, index) => (
               <div className="product" key={item._id}>
-                <img src={urlFor(item?.image?.[0])} className="cart-product-image" />
+                <img alt="" src={urlFor(item?.image?.[0])} className="cart-product-image" />
                 <div className="item-desc">
                   <div className="flex top">
                     <h5>{item?.name}</h5>

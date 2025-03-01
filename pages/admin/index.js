@@ -1,8 +1,22 @@
-import React from 'react';
-import Dashboard from '../../components/dashboard';
+import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Login from '../../components/login';
+import secureLocalStorage from 'react-secure-storage';
 
-export default function index() {
-  const token = true;
-  return <div>{token ? <Dashboard /> : <Login />}</div>;
+const NoSSR = dynamic(() => import('../../components/dashboard'), { ssr: false });
+
+export default function Index() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  const token = secureLocalStorage.getItem('token');
+
+  return <div>{token ? <NoSSR /> : <Login />}</div>;
 }
