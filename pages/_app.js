@@ -5,18 +5,25 @@ import { StateContext } from '../context/stateContext';
 import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
 import { useState } from 'react';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from '../store/store';
 
 function MyApp({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient());
   return (
-    <QueryClientProvider client={queryClient}>
-      <StateContext>
-        <Layout>
-          <Toaster />
-          <Component {...pageProps} />
-        </Layout>
-      </StateContext>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <StateContext>
+            <Layout>
+              <Toaster />
+              <Component {...pageProps} />
+            </Layout>
+          </StateContext>
+        </QueryClientProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 

@@ -15,9 +15,12 @@ const UserSchema = new mongoose.Schema({
       stock: { type: Number, required: true },
       featuredImageIndex: { type: Number, required: true },
       priceWithInterest: { type: Number, default: null },
+      discountedPrice: { type: Number, default: null },
+      createdAt: { type: Date, default: Date.now },
+      sold: { type: Number, default: 0 },
     },
   ],
-});
+}, { timestamps: true });
 
 // Prevent OverwriteModelError
 export default mongoose.models.User || mongoose.model('User', UserSchema);

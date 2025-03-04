@@ -1,15 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Link from 'next/link';
-import { urlFor } from '../lib/client';
 
 const HeroBanner = ({ heroBanner }) => {
+
+  console.log("bannerData2", heroBanner)
+
   return (
     <div className="hero-banner-container">
-      <p className="beats-solo">{heroBanner?.smallText}</p>
-      <h3 className="banner-midText">{heroBanner?.midText}</h3>
+      <p className="beats-solo">{heroBanner?.product}</p>
+      <h3 className="banner-midText">{heroBanner?.discount} Discount</h3>
       <h1 className="banner-largeText">{heroBanner?.largeText1}</h1>
-      <img src={urlFor(heroBanner?.image)} alt="headphones" className="hero-banner-image" />
+      {heroBanner?.image && (
+        <img src={typeof heroBanner?.image === 'string' ? heroBanner?.image :  URL.createObjectURL(heroBanner?.image)} alt="headphones" className="hero-banner-image" />
+      )}
       <div className="shop-now-button-top">
         <Link href={`/product/${heroBanner?.product}`}>
           <button type="button">{heroBanner?.buttonText}</button>
