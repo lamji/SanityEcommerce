@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
 import { useState } from 'react';
 
+
 function MyApp({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient());
   return (

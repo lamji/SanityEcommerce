@@ -14,12 +14,6 @@ const Layout = ({ children }) => {
     <div className="layout">
       <Head>
         <title>Store Name</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Mono:wght@400;700&display=swap"
-          rel="stylesheet"
-        ></link>
       </Head>
       <header>{showHeader && <Navbar />}</header>
       <main className="main-container">{children}</main>
