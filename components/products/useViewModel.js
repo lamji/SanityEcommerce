@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useProducts } from '../../hooks/useProducts';
+import productsJson from '../../src/constants/products.json';
+import {  useDispatch } from 'react-redux';
+import { showSpinner, hideSpinner } from '../../store/features/spinnerSlice';
 
 export default function useViewModel() {
   const { products, isLoading, error, mutationAdd, mutationDelete, mutationUpdate } = useProducts();
   const [imagePreviews, setImagePreviews] = useState([]);
+  const[hasFeaturedImage, setHasFeaturedImage] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [sorting, setSorting] = useState({ field: 'name', direction: 'asc' });
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentProduct, setCurrentProduct] = useState({
     name: '',
     regularPrice: '',
@@ -23,10 +29,11 @@ export default function useViewModel() {
   const [validation, setValidation] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const itemsPerPage = 10;
 
   const handleShowModal = (index = null, data = {}) => {
-    console.log('index', index, data);
+    setDeleteProductId(data._id);
     setEditIndex(index);
     if (index !== null) {
       setCurrentProduct(data);
@@ -53,15 +60,38 @@ export default function useViewModel() {
     setEditIndex(null);
   };
 
+  function calculateFinalPrice(basePrice, increaseRate, discountRate, isDiscounted) {
+   
+    // Convert percentage values from whole numbers (e.g., 1 -> 1%) 
+    let increaseAmount = Number(basePrice) * (Number(increaseRate) / 100);
+    let increasedPrice = Number(basePrice) + increaseAmount;
+    // Convert discount rate and apply
+    let discountAmount = Number(increasedPrice) * (Number(discountRate) / 100);
+    let finalPrice = Number(increasedPrice) - discountAmount;
+  
+    return isDiscounted ? finalPrice.toFixed(2) : Number(increasedPrice).toFixed(2); // Return price rounded to 2 decimal places
+}
+
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
     if (type === 'file') {
+      setHasFeaturedImage(true)
       const fileArray = Array.from(files).slice(0, 4);
-      setCurrentProduct((prevState) => ({
-        ...prevState,
-        [name]: fileArray,
-      }));
+      if(editIndex !== null) {
+        const newImages = [...currentProduct.images, ...fileArray];
+        setCurrentProduct((prevState) => ({
+          ...prevState,
+          [name]: newImages,
+        }));
+  
+      }else {
+        setCurrentProduct((prevState) => ({
+          ...prevState,
+          [name]: fileArray,
+        }));
+      }
+      
 
       const previews = [];
       fileArray.forEach((file) => {
@@ -145,20 +175,21 @@ export default function useViewModel() {
           description: currentProduct.description,
           images: images,
           stock: currentProduct.stock,
-          featuredImageIndex: currentProduct.featuredImageIndex,
+          featuredImageIndex: currentProduct.featuredImageIndex || 0,
           priceWithInterest: currentProduct.priceWithInterest,
+          discountedPrice:calculateFinalPrice(currentProduct.regularPrice,currentProduct.interest, currentProduct.discount, currentProduct.isDiscounted)
         };
 
         if (editIndex === null) {
-          /**
-           * New product
-           */
           mutationAdd.mutate(payload);
         } else {
-          /**
-           * update product
-           */
-          console.log('index2', payload);
+          const prevImages = currentProduct.images.filter(item => typeof item === "string")
+          const newPayload = {
+            ...payload,
+            images: hasFeaturedImage? [...payload.images, ...prevImages] : prevImages ,
+          }
+          console.log("test", { id: deleteProductId, updatedProduct: newPayload } )
+          mutationUpdate.mutate({ id: deleteProductId, updatedProduct: newPayload });
         }
       }
     } catch (error) {
@@ -167,6 +198,7 @@ export default function useViewModel() {
 
     setLoading(false);
     handleCloseModal();
+    setHasFeaturedImage(false)
   };
 
   const handleDelete = (index) => {
@@ -202,10 +234,48 @@ export default function useViewModel() {
     setCurrentPage(pageNumber);
   };
 
+  const handleSort = (field) => {
+    setSorting(prev => ({
+      field,
+      direction: prev.field === field && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  const getSortedItems = (items) => {
+    if (!items) return [];
+    
+    // Filter items based on product name search
+    const filteredItems = items.filter(item => 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    
+    return filteredItems.sort((a, b) => {
+      let aValue = a[sorting.field];
+      let bValue = b[sorting.field];
+
+      // Handle numeric fields
+      if (['regularPrice', 'interest', 'priceWithInterest', 'discount', 'discountedPrice', 'stock'].includes(sorting.field)) {
+        aValue = parseFloat(aValue) || 0;
+        bValue = parseFloat(bValue) || 0;
+      } else if (sorting.field === 'name') {
+        // Case-insensitive string comparison for name
+        aValue = aValue?.toLowerCase() || '';
+        bValue = bValue?.toLowerCase() || '';
+      }
+
+      if (sorting.direction === 'asc') {
+        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+      } else {
+        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+      }
+    });
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products?.products?.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(products?.products?.length / itemsPerPage);
+  const sortedItems = getSortedItems(products?.products);
+  const currentItems = sortedItems?.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sortedItems?.length / itemsPerPage);
 
   const handleShowDeleteModal = (productId) => {
     setDeleteProductId(productId);
@@ -221,6 +291,14 @@ export default function useViewModel() {
       setShowDeleteModal(false);
     }
   }, [mutationDelete.isSuccess]);
+
+  useEffect(() => {
+    if (isLoading || mutationAdd.isPending || mutationDelete.isPending || mutationUpdate.isPending) {
+      dispatch(showSpinner("Loading..."))
+    }else {
+      dispatch(hideSpinner())
+    }
+  },[isLoading, mutationAdd.isPending, mutationDelete.isPending, mutationUpdate.isPending])
 
   return {
     handleShowModal,
@@ -251,5 +329,10 @@ export default function useViewModel() {
     setShowDeleteModal,
     handleRemoveImage,
     showDeleteModal,
+    mutationUpdate,
+    handleSort,
+    sorting,
+    searchQuery,
+    setSearchQuery
   };
 }

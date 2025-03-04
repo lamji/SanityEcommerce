@@ -33,9 +33,12 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: 'User not found' });
       }
 
+      // Sort products by createdAt in descending order (latest first)
+      const sortedProducts = user.products.sort((a, b) => b.createdAt - a.createdAt);
+
       return res
         .status(200)
-        .json({ message: 'Products fetched successfully', products: user.products });
+        .json({ message: 'Products fetched successfully', products: sortedProducts });
     } catch (error) {
       console.error('Error fetching products:', error);
       return res.status(500).json({ message: 'Internal server error' });

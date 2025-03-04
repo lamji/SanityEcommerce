@@ -1,5 +1,20 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import secureLocalStorage from 'react-secure-storage';
+import { useSpinner } from './useSpinner';
+import { useNotification } from './useNotification';
+
+const calculatePrices = (product) => {
+  const priceWithInterest = product.regularPrice * (1 + product.interest / 100);
+  const discountedPrice = product.isDiscounted 
+    ? priceWithInterest * (1 - product.discount / 100)
+    : priceWithInterest;
+
+  return {
+    ...product,
+    priceWithInterest,
+    discountedPrice
+  };
+};
 
 const fetchProducts = async () => {
   const token = secureLocalStorage.getItem('token');
@@ -8,6 +23,10 @@ const fetchProducts = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to fetch products');
+  }
   return res.json();
 };
 
@@ -18,17 +37,25 @@ const addProduct = async (newProduct) => {
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     body: JSON.stringify(newProduct),
   });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to add product');
+  }
   return res.json();
 };
 
 const deleteProduct = async (id) => {
   const token = secureLocalStorage.getItem('token');
-  await fetch(`/api/delete-product/${id}`, {
+  const res = await fetch(`/api/delete-product/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
     method: 'DELETE',
   });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to delete product');
+  }
   return id;
 };
 
@@ -39,11 +66,17 @@ const updateProduct = async ({ id, updatedProduct }) => {
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     body: JSON.stringify(updatedProduct),
   });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to update product');
+  }
   return res.json();
 };
 
 export const useProducts = () => {
   const queryClient = useQueryClient();
+  const { withSpinner } = useSpinner();
+  const { showError, showSuccess } = useNotification();
 
   const {
     data: products,
@@ -51,27 +84,71 @@ export const useProducts = () => {
     error,
   } = useQuery({
     queryKey: ['products'],
-    queryFn: fetchProducts,
+    queryFn: () => withSpinner(fetchProducts, 'Loading products...'),
+    onError: (error) => {
+      showError(
+        error.message || 'Failed to fetch products',
+        'Products Error',
+        { duration: 6000, autoHide: true }
+      );
+    },
   });
 
   const mutationAdd = useMutation({
-    mutationFn: addProduct,
-    onSuccess: () => {
+    mutationFn: (newProduct) => withSpinner(() => addProduct(newProduct), 'Adding product...'),
+    onSuccess: (data) => {
       queryClient.invalidateQueries(['products']);
+      showSuccess(
+        `Product "${data.name}" added successfully`,
+        'Product Added',
+        { duration: 4000, autoHide: true }
+      );
+    },
+    onError: (error) => {
+      showError(
+        error.message || 'Failed to add product. Please try again.',
+        'Add Product Error',
+        { duration: 6000, autoHide: true }
+      );
     },
   });
 
   const mutationDelete = useMutation({
-    mutationFn: deleteProduct,
+    mutationFn: (id) => withSpinner(() => deleteProduct(id), 'Deleting product...'),
     onSuccess: (id) => {
       queryClient.invalidateQueries(['products']);
+      showSuccess(
+        'Product deleted successfully',
+        'Product Deleted',
+        { duration: 4000, autoHide: true }
+      );
+    },
+    onError: (error) => {
+      showError(
+        error.message || 'Failed to delete product. Please try again.',
+        'Delete Error',
+        { duration: 6000, autoHide: true }
+      );
     },
   });
 
   const mutationUpdate = useMutation({
-    mutationFn: updateProduct,
-    onSuccess: () => {
+    mutationFn: ({ id, updatedProduct }) => 
+      withSpinner(() => updateProduct({ id, updatedProduct }), 'Updating product...'),
+    onSuccess: (data) => {
       queryClient.invalidateQueries(['products']);
+      showSuccess(
+        `Product "${data.name}" updated successfully`,
+        'Product Updated',
+        { duration: 4000, autoHide: true }
+      );
+    },
+    onError: (error) => {
+      showError(
+        error.message || 'Failed to update product. Please try again.',
+        'Update Error',
+        { duration: 6000, autoHide: true }
+      );
     },
   });
 
